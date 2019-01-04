@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_outer_classname = "PacketData";
+
+package com.isoldier.heartbeat.bean;
+
+message Packet {
+    enum PacketType {
+        HEARTBEAT = 0;
+        DATA = 1;
+    }
+    //数据类型
+    PacketType packetType = 1;
+    // 传输的数据
+    string data = 2;
+}
