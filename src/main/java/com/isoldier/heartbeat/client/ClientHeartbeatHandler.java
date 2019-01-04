@@ -7,11 +7,11 @@ import io.netty.handler.timeout.IdleStateEvent;
 
 import static com.isoldier.heartbeat.bean.PacketData.Packet.newBuilder;
 
+
 /**
  * @author jinmeng on 2019/1/4.
  * @version 1.0
  */
-
 
 public class ClientHeartbeatHandler extends ChannelInboundHandlerAdapter {
 
@@ -35,6 +35,7 @@ public class ClientHeartbeatHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         if (evt instanceof IdleStateEvent) {
+
             // 不管是读事件空闲还是写事件空闲都向服务器发送心跳包
             sendHeartbeatPacket(ctx);
         }
@@ -47,10 +48,10 @@ public class ClientHeartbeatHandler extends ChannelInboundHandlerAdapter {
 
     /**
      * 发送心跳包
-     *
      * @param ctx
      */
     private void sendHeartbeatPacket(ChannelHandlerContext ctx) {
+
         PacketData.Packet.Builder builder = newBuilder();
         builder.setPacketType(PacketData.Packet.PacketType.HEARTBEAT);
         PacketData.Packet packet = builder.build();

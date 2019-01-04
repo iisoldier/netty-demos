@@ -43,6 +43,7 @@
   <build>
     <defaultGoal>package</defaultGoal>
     <extensions>
+        <!--设置各种有用属性（从 OS 中检测的 ${os.name} 和 ${os.arch} 属性）的 Maven 插件-->
       <extension>
         <groupId>kr.motd.maven</groupId>
         <artifactId>os-maven-plugin</artifactId>
@@ -74,23 +75,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
         <version>3.2</version>
         <configuration>
-          <optimize>true</optimize>
           <source>${jdk.version}</source>
           <target>${jdk.version}</target>
         </configuration>
       </plugin>
+
 
     </plugins>
   </build>

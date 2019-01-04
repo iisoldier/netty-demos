@@ -13,16 +13,17 @@ import io.netty.util.ReferenceCountUtil;
 
 public class ServerHeartbeatHandler extends ChannelInboundHandlerAdapter {
 
-
     private volatile int counter;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+
         System.out.println("--- Client is active ---");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+
         System.out.println("--- Client is inactive ---");
     }
 
@@ -34,8 +35,9 @@ public class ServerHeartbeatHandler extends ChannelInboundHandlerAdapter {
             PacketData.Packet packet = (PacketData.Packet) msg;
 
             switch (packet.getPacketType()) {
+
                 case HEARTBEAT:
-                    handleHeartbreat(ctx, packet);
+                    handleHeartbeat(ctx, packet);
                     break;
 
                 case DATA:
@@ -66,6 +68,7 @@ public class ServerHeartbeatHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+
         System.out.println("连接出现异常");
     }
 
@@ -75,8 +78,8 @@ public class ServerHeartbeatHandler extends ChannelInboundHandlerAdapter {
      * @param ctx
      * @param packet
      */
-    private void handleHeartbreat(ChannelHandlerContext ctx, PacketData.Packet packet) {
-        // 将心跳丢失计数器置为0
+    private void handleHeartbeat(ChannelHandlerContext ctx, PacketData.Packet packet) {
+        // 充值计数器
         counter = 0;
         System.out.println("收到心跳包");
         ReferenceCountUtil.release(packet);
@@ -89,7 +92,7 @@ public class ServerHeartbeatHandler extends ChannelInboundHandlerAdapter {
      * @param packet
      */
     private void handleData(ChannelHandlerContext ctx,PacketData.Packet packet) {
-        // 将心跳丢失计数器置为0
+        // 充值计数器
         counter = 0;
         String data = packet.getData();
         System.out.println(data);

@@ -2,9 +2,7 @@ package com.isoldier.heartbeat.client;
 
 import com.isoldier.heartbeat.bean.PacketData;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -22,7 +20,7 @@ import static com.isoldier.heartbeat.bean.PacketData.Packet.newBuilder;
  */
 public class Client {
 
-    private static Channel ch;
+    private static Channel channel;
     private static Bootstrap bootstrap;
 
 
@@ -52,16 +50,16 @@ public class Client {
             // 连接服务器
             doConnect();
 
-            // 模拟不定时发送向服务器发送数据的过程
+            // 不定时发送向服务器发送数据包
             Random random = new Random();
             for(int i = 0; i< 100; i++ ){
-                int num = random.nextInt(21);
+                int num = random.nextInt(20);
                 Thread.sleep(num * 1000);
                 PacketData.Packet.Builder builder = newBuilder();
                 builder.setPacketType(PacketData.Packet.PacketType.DATA);
                 builder.setData("发送数据包： " + num);
                 PacketData.Packet packet = builder.build();
-                ch.writeAndFlush(packet);
+                channel.writeAndFlush(packet);
             }
 
         } catch (InterruptedException e) {
@@ -77,7 +75,8 @@ public class Client {
      * @throws InterruptedException
      */
     public static void doConnect() throws InterruptedException {
-        ch = bootstrap.connect("127.0.0.1", 8192).sync().channel();
+
+        channel = bootstrap.connect("127.0.0.1", 8192).sync().channel();
     }
 
 
